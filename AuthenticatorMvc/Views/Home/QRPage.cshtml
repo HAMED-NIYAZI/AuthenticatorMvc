@@ -1,0 +1,40 @@
+﻿ 
+
+@model ValidationKeyViewmodel
+
+<div class="container" style="max-width: 800px">
+    <h1 class="page-header-text">
+        <i class="far fa-qrcode"></i>
+        Set up Two Factor Authentication
+    </h1>
+
+    <div class="alert alert-info">...</div>
+
+    <error-display error-display-model="Model.ErrorDisplay"></error-display>
+
+    <div class="mt-3">
+        <img src="@Model.QrCodeSetupImageUrl"
+             style="width: 100%; max-width: 220px"
+             title="Scan this QR Code with your Authenticator app" />
+
+        <div title="Manual entry code to use instead of QR code"
+             class="text-secondary">
+            @Model.QrCodeSetupManualEntryKey
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <form method="post" asp-area="" asp-controller="Home" asp-action="QRPagePost" enctype="multipart/form-data">
+            <input class="form-control" asp-for="ValidationKey" />
+            <button name="btnValidate" class="btn btn-primary mt-2">
+                <i class="fad fa-check-circle"></i>
+                Turn on Two Factor Authentication
+            </button>
+
+            <!-- we need to keep track of the CustomerSecret key so we don't
+                 regenerate a new key for each request                   -->
+          <input type="hidden" asp-for="QrCodeSetupCustomerSecretKey" />
+          <input type="hidden" asp-for="UserGuid" />
+        </form>
+    </div>
+</div>
